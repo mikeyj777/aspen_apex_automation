@@ -13,7 +13,6 @@ test_case_requests/
 *.png
 activate_venv.py
 .vscode
-*.txt
 *.kmz
 !requirements.txt
 *.pickle
