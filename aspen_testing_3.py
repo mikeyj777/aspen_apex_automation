@@ -84,18 +84,18 @@ class AspenVLECalculator:
                         if child.hasChildren():
                             subchildren = child.children
                             for subchild in subchildren:
-                                if 'ID' in subchild.name.upper():
+                                if 'CASN' in subchild.name.upper():
                                     print(f'    Found potential ID node: {subchild.name}')
 
                                     # Try to add components here
                                     try:
                                         if subchild.hasChildren() and len(subchild.children) >= 2:
-                                            subchild.children[0].value = 'ACETIC-ACID'
-                                            subchild.children[1].value = 'WATER'
-                                            print('✓ Components set in ID node')
+                                            subchild.children[0].value = CAS_ACETIC_ACID
+                                            subchild.children[1].value = CAS_WATER
+                                            print('✓ Components set in CAS Number node')
                                         elif hasattr(subchild, 'value'):
                                             # If it's a single value node, try setting it
-                                            subchild.value = 'ACETIC-ACID,WATER'
+                                            subchild.value = f'{CAS_ACETIC_ACID},{CAS_WATER}'
                                             print('✓ Components set as comma-separated string')
                                     except Exception as e2:
                                         print(f'    Could not set components in {subchild.name}: {e2}')
