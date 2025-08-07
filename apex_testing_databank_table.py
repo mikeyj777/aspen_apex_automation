@@ -1,6 +1,7 @@
 from property_abbrev import PropertyAbbrev
 
 from emnengr_utils import *
+from helpers import *
 
 chem_mix = [
     '64-19-7',
@@ -16,9 +17,13 @@ chem_mix_by_id = [get_chem_id_from_cas(cas_no) for cas_no in chem_mix]
 
 mws = get_mws(chem_mix_by_id)
 
+molar_comp = mol
+
 databank_name_list = ['ASPEN VLE-IG', 'ASPEN VLE-HOC', 'ASPEN VLE-RK']
 
 banks = get_databanks(databank_name_list=databank_name_list, description_contains="WILSON")
+
+
 
 apple = 1
 
