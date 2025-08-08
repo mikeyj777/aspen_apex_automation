@@ -85,10 +85,13 @@ def get_coeff_sets_info(chem_ids, databanks):
     
     return filtered_bin_coeff_sets
 
-def get_coeff_sets(coeff_sets_info):
+def get_coeff_set_dict(coeff_sets_info):
     coeff_set_ids = [coeff_set_info.ID for coeff_set_info in coeff_sets_info]
     with ApexSession() as session:
         coeff_sets = session.query(BinCoeff).filter(
             BinCoeff.CoeffSetID.in_(coeff_set_ids)
         ).all()
-    return coeff_sets
+    coeff_set_dict = {}
+    for coeff_set in coeff_sets:
+        coeff_set_dict[coeff_set.CoeffSetID] = coeff_set
+    return coeff_set_dict

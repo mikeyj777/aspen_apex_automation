@@ -23,6 +23,6 @@ banks = get_databanks(databank_name_list=databank_name_list, description_contain
 
 coeff_sets_info = get_coeff_sets_info(chem_ids=chem_mix_by_id, databanks=banks)
 
-coeff_sets = get_coeff_sets(coeff_sets_info)
+coeff_set_dict = get_coeff_set_dict(coeff_sets_info)
 
 apple = 1
