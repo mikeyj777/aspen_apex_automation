@@ -15,7 +15,8 @@ def mole_fracts_from_mass_fracts(mass_fracts, mws):
     mass_np = np.array(mass_fracts)
     mw_np = np.array(mws)
     try:
-        mol_fracts = np.multiply(mass_np, 1/mw_np) / mass_np.dot(1/mw_np)
+        mol_fracts = mass_np / mw_np
+        mol_fracts /= mol_fracts.sum()
     except Exception as e:
         print(f'could not calculate mol fractions.  error: {e}')
     return mol_fracts.tolist()
@@ -35,7 +36,8 @@ def mass_fracts_from_mole_fracts(mole_fracts, mws):
     mole_np = np.array(mole_fracts)
     mw_np = np.array(mws)
     try:
-        mass_fracts = np.multiply(mole_np, mw_np) / mole_np.dot(mw_np)
+        mass_fracts = mole_np * mw_np
+        mass_fracts /= mass_fracts.sum()
     except Exception as e:
         print(f'Could not calculate mass fractions.  Error: {e}')
     return mass_fracts.tolist()
