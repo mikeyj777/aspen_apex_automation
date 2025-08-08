@@ -1,7 +1,7 @@
 from property_abbrev import PropertyAbbrev
 
-from sqlalchemy import text
-from emnengr.apex.emnphysprop2 import Databank, ApexSession, BinCoeffSet, ChemInfo, ConstValueData, Property
+from sqlalchemy import text, or_, and_
+from emnengr.apex.emnphysprop2 import Databank, ApexSession, BinCoeffSet, BinCoeff, ChemInfo, ConstValueData, Property
 
 
 def get_chem_id_from_cas(cas_number: str):
@@ -69,3 +69,26 @@ def get_databanks(databank_name_list = None, description_contains = None):
             Databank.Name.in_(databank_name_list),
             Databank.Description.contains(description_contains)
         ).all()
+    
+def get_coeff_sets_info(chem_ids, databanks):
+    databank_ids = [bank.ID for bank in databanks]
+    
+    with ApexSession() as session:
+        chem1, chem2 = chem_ids  # unpack your two ChemIDs
+        filtered_bin_coeff_sets = session.query(BinCoeffSet).filter(
+            BinCoeffSet.DatabankID.in_(databank_ids),
+            or_(
+                and_(BinCoeffSet.ChemID_i == chem1, BinCoeffSet.ChemID_j == chem2),
+                and_(BinCoeffSet.ChemID_i == chem2, BinCoeffSet.ChemID_j == chem1),
+            )
+        ).all()
+    
+    return filtered_bin_coeff_sets
+
+def get_coeff_sets(coeff_sets_info):
+    coeff_set_ids = [coeff_set_info.ID for coeff_set_info in coeff_sets_info]
+    with ApexSession() as session:
+        coeff_sets = session.query(BinCoeff).filter(
+            BinCoeff.CoeffSetID.in_(coeff_set_ids)
+        ).all()
+    return coeff_sets
